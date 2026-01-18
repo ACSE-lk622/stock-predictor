@@ -31,11 +31,11 @@ export function QuoteCard({ quote }: QuoteCardProps) {
   };
 
   return (
-    <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <h2 className="text-2xl font-bold text-white">{quote.symbol}</h2>
+    <div className="bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-700">
+      <div className="flex items-start justify-between mb-4 gap-2">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">{quote.symbol}</h2>
             <button
               onClick={toggleWatchlist}
               className={`p-1.5 rounded-lg transition-colors ${
@@ -62,11 +62,11 @@ export function QuoteCard({ quote }: QuoteCardProps) {
           </div>
           <p className="text-gray-400 text-sm">{quote.name}</p>
         </div>
-        <div className="text-right">
-          <p className="text-3xl font-bold text-white">
+        <div className="text-right flex-shrink-0">
+          <p className="text-2xl sm:text-3xl font-bold text-white">
             ${price.toFixed(2)}
           </p>
-          <p className={`text-lg font-semibold ${changeColor}`}>
+          <p className={`text-sm sm:text-lg font-semibold ${changeColor}`}>
             {isPositive ? '+' : ''}
             {change.toFixed(2)} ({isPositive ? '+' : ''}
             {changePercent.toFixed(2)}%)
@@ -74,7 +74,7 @@ export function QuoteCard({ quote }: QuoteCardProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-700">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-4 pt-4 border-t border-gray-700">
         <div>
           <p className="text-xs text-gray-500 uppercase">開盤</p>
           <p className="text-sm font-medium text-white">

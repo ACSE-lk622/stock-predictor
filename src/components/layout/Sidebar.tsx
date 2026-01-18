@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useStockStore } from '@/stores/stockStore';
 
 interface SidebarProps {
@@ -9,9 +10,44 @@ interface SidebarProps {
 export function Sidebar({ onSelectSymbol }: SidebarProps) {
   const { watchlist, removeFromWatchlist, recentSearches, selectedSymbol } =
     useStockStore();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleSelect = (symbol: string) => {
+    onSelectSymbol(symbol);
+    setIsOpen(false); // 手機版選擇後自動關閉
+  };
 
   return (
-    <aside className="w-64 bg-gray-900 border-r border-gray-800 h-full overflow-y-auto">
+    <>
+      {/* 手機版漢堡選單按鈕 */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="lg:hidden fixed top-20 left-4 z-50 bg-gray-800 p-2 rounded-lg border border-gray-700"
+        aria-label="開啟選單"
+      >
+        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {isOpen ? (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          )}
+        </svg>
+      </button>
+
+      {/* 手機版背景遮罩 */}
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      <aside className={`
+        fixed lg:relative
+        w-64 bg-gray-900 border-r border-gray-800 h-full overflow-y-auto
+        z-40 transition-transform duration-300
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
       <div className="p-4">
         {/* Watchlist */}
         <div className="mb-6">
@@ -25,7 +61,7 @@ export function Sidebar({ onSelectSymbol }: SidebarProps) {
               {watchlist.map((item) => (
                 <li key={item.symbol}>
                   <div
-                    onClick={() => onSelectSymbol(item.symbol)}
+                    onClick={() => handleSelect(item.symbol)}
                     className={`w-full text-left px-3 py-2 rounded-lg transition-colors flex items-center justify-between group cursor-pointer ${
                       selectedSymbol === item.symbol
                         ? 'bg-blue-600 text-white'
@@ -77,7 +113,7 @@ export function Sidebar({ onSelectSymbol }: SidebarProps) {
               {recentSearches.slice(0, 5).map((symbol) => (
                 <li key={symbol}>
                   <button
-                    onClick={() => onSelectSymbol(symbol)}
+                    onClick={() => handleSelect(symbol)}
                     className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
                       selectedSymbol === symbol
                         ? 'bg-blue-600 text-white'
@@ -101,7 +137,7 @@ export function Sidebar({ onSelectSymbol }: SidebarProps) {
             {['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA'].map((symbol) => (
               <li key={symbol}>
                 <button
-                  onClick={() => onSelectSymbol(symbol)}
+                  onClick={() => handleSelect(symbol)}
                   className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
                     selectedSymbol === symbol
                       ? 'bg-blue-600 text-white'
@@ -116,5 +152,6 @@ export function Sidebar({ onSelectSymbol }: SidebarProps) {
         </div>
       </div>
     </aside>
+    </>
   );
 }

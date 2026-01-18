@@ -170,26 +170,26 @@ function DashboardContent() {
   const isSaasCompany = SAAS_COMPANIES.some(c => c.symbol === currentSymbol?.toUpperCase());
 
   return (
-    <div className="flex">
+    <div className="flex min-h-[calc(100vh-64px)]">
       <Sidebar onSelectSymbol={handleSelectSymbol} />
 
-      <main className="flex-1 p-6 overflow-y-auto">
+      <main className="flex-1 p-3 sm:p-6 overflow-y-auto w-full">
         {/* SaaS 公司快速選單 */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <h3 className="text-sm font-medium text-gray-400 mb-3">SaaS 公司快速選單</h3>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-x-visible">
             {SAAS_COMPANIES.map((company) => (
               <button
                 key={company.symbol}
                 onClick={() => handleSelectSymbol(company.symbol)}
-                className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
+                className={`px-3 py-1.5 text-sm rounded-lg border transition-colors flex-shrink-0 ${
                   currentSymbol === company.symbol
                     ? 'bg-blue-500/20 border-blue-500 text-blue-400'
                     : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-600 hover:bg-gray-700'
                 }`}
               >
                 <span className="font-medium">{company.symbol}</span>
-                <span className="text-gray-500 ml-1 text-xs">{company.name}</span>
+                <span className="text-gray-500 ml-1 text-xs hidden sm:inline">{company.name}</span>
               </button>
             ))}
           </div>
@@ -229,18 +229,18 @@ function DashboardContent() {
             <QuoteCard quote={stockData.quote} />
 
             {/* 價格圖表 - 全寬 */}
-            <div className="bg-gray-800 rounded-xl p-4 border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">
+            <div className="bg-gray-800 rounded-xl p-3 sm:p-4 border border-gray-700">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-white">
                   價格走勢圖
                 </h3>
                 {/* 時間區間選擇 */}
-                <div className="flex gap-1 bg-gray-900/50 rounded-lg p-1">
+                <div className="flex gap-1 bg-gray-900/50 rounded-lg p-1 overflow-x-auto">
                   {PERIOD_OPTIONS.map((option) => (
                     <button
                       key={option.value}
                       onClick={() => setChartPeriod(option.value)}
-                      className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                      className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-md transition-colors flex-shrink-0 ${
                         chartPeriod === option.value
                           ? 'bg-blue-500 text-white'
                           : 'text-gray-400 hover:text-white hover:bg-gray-700'
