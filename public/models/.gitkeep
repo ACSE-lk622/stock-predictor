@@ -1,0 +1,2 @@
+# This directory will contain pre-trained models for browser inference
+# Run the Python training pipeline and export script to populate this folder
